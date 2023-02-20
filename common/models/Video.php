@@ -55,16 +55,16 @@ class Video extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'video_id' => Yii::t('backend', 'Video ID'),
-            'title' => Yii::t('backend', 'Title'),
-            'description' => Yii::t('backend', 'Description'),
-            'tags' => Yii::t('backend', 'Tags'),
-            'status' => Yii::t('backend', 'Status'),
-            'has_thumbnail' => Yii::t('backend', 'Has Thumbnail'),
-            'video_name' => Yii::t('backend', 'Video Name'),
-            'created_at' => Yii::t('backend', 'Created At'),
-            'updated_at' => Yii::t('backend', 'Updated At'),
-            'created_by' => Yii::t('backend', 'Created By'),
+            'video_id' => 'Video ID',
+            'title' => 'Title',
+            'description' => 'Description',
+            'tags' => 'Tags',
+            'status' => 'Status',
+            'has_thumbnail' => 'Has Thumbnail',
+            'video_name' => 'Video Name',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+            'created_by' => 'Created By',
         ];
     }
 
@@ -84,6 +84,6 @@ class Video extends \yii\db\ActiveRecord
      */
     public static function find()
     {
-        return new \common\models\query\VideoQuery(get_called_class());
+        return new \common\models\query\VideoQuery(static::class);
     }
 }

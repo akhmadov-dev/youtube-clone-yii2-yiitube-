@@ -16,17 +16,22 @@ use yii\bootstrap5\ActiveForm;
 
     <div class="row">
         <div class="col-md-8">
+
+            <?= $form->errorSummary($model) ?>
+
             <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-            <div class="form-group">
-                <label class="form-label" for="thumbnail"><?= $model->getAttributeLabel('thumbnail') ?></label>
-                <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="thumbnail" name="thumbnail">
-                    <label class="input-group-text" for="thumbnail">Upload</label>
-                </div>
-            </div>
+<!--            <div class="form-group">-->
+<!--                <label class="form-label" for="thumbnail">--><?php //= $model->getAttributeLabel('thumbnail') ?><!--</label>-->
+<!--                <div class="input-group mb-3">-->
+<!--                    <input type="file" class="form-control" id="thumbnail" name="thumbnail">-->
+<!--                    <label class="input-group-text" for="thumbnail">Upload</label>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <?= $form->field($model, 'thumbnail')->fileInput() ?>
 
             <?= $form->field($model, 'tags')->textInput(['maxlength' => true]) ?>
 

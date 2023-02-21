@@ -2,11 +2,13 @@
 
 namespace common\models;
 
+use Imagine\Image\Box;
 use Yii;
 use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\helpers\FileHelper;
 use yii\helpers\Url;
+use yii\imagine\Image;
 
 /**
  * This is the model class for table "{{%video}}".
@@ -73,6 +75,7 @@ class Video extends \yii\db\ActiveRecord
             [['created_at', 'updated_at'], 'integer'],
             [['title', 'tags', 'video_name'], 'string', 'max' => 512],
 
+            ['thumbnail', 'image', 'minWidth' => 1280, 'maxSize' => 1024 * 1024 * 5],
             ['has_thumbnail', 'integer'],
             ['has_thumbnail', 'default', 'value' => 0],
 
@@ -173,12 +176,16 @@ class Video extends \yii\db\ActiveRecord
 
         if ($this->thumbnail) {
             $thumbnailPath = Yii::getAlias('@frontend/web/storage/thumbs/' . $this->video_id . '.jpg');
-
             if (!is_dir(dirname($thumbnailPath))) {
                 FileHelper::createDirectory(dirname($thumbnailPath));
             }
 
             $this->thumbnail->saveAs($thumbnailPath);
+
+            Image::getImagine()
+                ->open($thumbnailPath)
+                ->thumbnail(new Box(1280, 1280))
+                ->save();
         }
 
         return true;

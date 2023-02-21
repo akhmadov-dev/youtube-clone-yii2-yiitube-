@@ -99,6 +99,18 @@ class Video extends \yii\db\ActiveRecord
     }
 
     /**
+     * get status labels
+     * @return string[]
+     */
+    public function getStatusLabels(): array
+    {
+        return [
+            self::STATUS_UNLISTED => 'Unlisted',
+            self::STATUS_PUBLISHED => 'Published',
+        ];
+    }
+
+    /**
      * Gets query for [[CreatedBy]].
      *
      * @return \yii\db\ActiveQuery|\common\models\query\UserQuery

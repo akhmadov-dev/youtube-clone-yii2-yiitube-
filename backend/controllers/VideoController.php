@@ -78,10 +78,6 @@ class VideoController extends Controller
      */
     public function actionCreate()
     {
-        $this->enableCsrfValidation = false;
-//        echo '<pre>';
-//        print_r(\Yii::$app->request->post());
-//        exit;
         $model = new Video();
 
         $model->video = UploadedFile::getInstanceByName('video');
@@ -93,9 +89,6 @@ class VideoController extends Controller
             $model->loadDefaultValues();
         }
 
-//        echo '<pre>';
-//        var_dump($model->errors);
-//        exit();
         return $this->render('create', [
             'model' => $model,
         ]);
@@ -113,7 +106,7 @@ class VideoController extends Controller
         $model = $this->findModel($video_id);
 
         if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'video_id' => $model->video_id]);
+            return $this->redirect(['update', 'video_id' => $model->video_id]);
         }
 
         return $this->render('update', [

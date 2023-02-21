@@ -23,7 +23,7 @@ use yii\bootstrap5\ActiveForm;
         </div>
         <div class="col-md-4">
 
-            <div class="ratio ratio-16x9">
+            <div class="ratio ratio-16x9 mb-3">
                 <video src="<?= $model->getVideoLink() ?>" title="YouTube video" controls></video>
             </div>
 
@@ -37,7 +37,7 @@ use yii\bootstrap5\ActiveForm;
                 <?= $model->video_name ?>
             </div>
 
-            <?= $form->field($model, 'status')->textInput() ?>
+            <?= $form->field($model, 'status')->dropDownList($model->getStatusLabels()) ?>
         </div>
     </div>
 

@@ -23,15 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <p class="text-muted">Your video will be private until you publish it</p>
 
         <?php $form = \yii\bootstrap5\ActiveForm::begin([
-            'options' => ['enctype' => 'multipart/form-data']
+            'options' => ['enctype' => 'multipart/form-data'],
         ]) ?>
 
         <button class="btn btn-primary btn-file">Select file
-<!--            <input type="file" id="videoFile" name="video">-->
-            <?= $form->field($model, 'video')->fileInput([
+            <!--            <input type="file" id="videoFile" name="video">-->
+            <?= $form->field($model, 'video', ['options' => []])->fileInput([
                 'name' => 'video',
-                'id' => 'videoFile',
-            ]) ?>
+                'id' => 'videoFile'
+            ])->label(false) ?>
         </button>
         <?php \yii\bootstrap5\ActiveForm::end() ?>
     </div>

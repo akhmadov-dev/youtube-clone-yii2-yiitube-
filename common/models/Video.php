@@ -3,7 +3,10 @@
 namespace common\models;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\helpers\FileHelper;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "{{%video}}".
@@ -23,6 +26,10 @@ use yii\helpers\FileHelper;
  */
 class Video extends \yii\db\ActiveRecord
 {
+    public const STATUS_UNLISTED = 0;
+    public const STATUS_PUBLISHED = 1;
+
+
     /**
      * @var \yii\web\UploadedFile
      */
@@ -36,6 +43,17 @@ class Video extends \yii\db\ActiveRecord
         return '{{%video}}';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::class,
+            [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false
+            ]
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -47,8 +65,14 @@ class Video extends \yii\db\ActiveRecord
             [['video_id'], 'string', 'max' => 16],
 
             [['description'], 'string'],
-            [['status', 'has_thumbnail', 'created_at', 'updated_at'], 'integer'],
+            [['created_at', 'updated_at'], 'integer'],
             [['title', 'tags', 'video_name'], 'string', 'max' => 512],
+
+            ['has_thumbnail', 'integer'],
+            ['has_thumbnail', 'default', 'value' => 0],
+
+            ['status', 'integer'],
+            ['status', 'default', 'value' => self::STATUS_UNLISTED],
 
             ['created_by', 'integer'],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
@@ -126,5 +150,10 @@ class Video extends \yii\db\ActiveRecord
         }
 
         return true;
+    }
+
+    public function getVideoLink(): string
+    {
+        return Yii::$app->params['frontendUrl'] . '/storage/videos/' . $this->video_id . '.mp4';
     }
 }

@@ -87,7 +87,7 @@ class VideoController extends Controller
         $model->video = UploadedFile::getInstanceByName('video');
         if ($this->request->isPost && $model->save()) {
             if (\Yii::$app->request->isPost && $model->save()) {
-                return $this->redirect(['view', 'video_id' => $model->video_id]);
+                return $this->redirect(['update', 'video_id' => $model->video_id]);
             }
         } else {
             $model->loadDefaultValues();

@@ -9,6 +9,9 @@ $this->title = 'Update Video: ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Videos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'video_id' => $model->video_id]];
 $this->params['breadcrumbs'][] = 'Update';
+
+//echo $model->getVideoLink();
+//exit();
 ?>
 <div class="video-update">
 

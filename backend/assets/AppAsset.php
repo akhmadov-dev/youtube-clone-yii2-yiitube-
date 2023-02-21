@@ -3,6 +3,8 @@
 namespace backend\assets;
 
 use yii\web\AssetBundle;
+use yii\web\YiiAsset;
+use yii\bootstrap5\BootstrapAsset;
 
 /**
  * Main backend application asset bundle.
@@ -15,9 +17,10 @@ class AppAsset extends AssetBundle
         'css/site.css',
     ];
     public $js = [
+        'js/app.js'
     ];
     public $depends = [
-        'yii\web\YiiAsset',
-        'yii\bootstrap5\BootstrapAsset',
+        YiiAsset::class,
+        BootstrapAsset::class,
     ];
 }

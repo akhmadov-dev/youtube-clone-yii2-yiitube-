@@ -26,13 +26,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'options' => ['enctype' => 'multipart/form-data'],
         ]) ?>
 
+        <p>
+            <?= $form->errorSummary($model) ?>
+        </p>
+
         <button class="btn btn-primary btn-file">Select file
             <!--            <input type="file" id="videoFile" name="video">-->
             <?= $form->field($model, 'video', ['options' => []])->fileInput([
                 'name' => 'video',
                 'id' => 'videoFile'
-            ])->label(false) ?>
+            ])->label(false)->error(false) ?>
         </button>
+
         <?php \yii\bootstrap5\ActiveForm::end() ?>
     </div>
 

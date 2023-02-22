@@ -71,6 +71,8 @@ class Video extends \yii\db\ActiveRecord
             [['video_id'], 'unique'],
             [['video_id'], 'string', 'max' => 16],
 
+            ['video', 'file', 'extensions' => ['mp4'], 'maxSize' => 1024 * 1024 * 500],
+
             [['description'], 'string'],
             [['created_at', 'updated_at'], 'integer'],
             [['title', 'tags', 'video_name'], 'string', 'max' => 512],
@@ -146,49 +148,58 @@ class Video extends \yii\db\ActiveRecord
      */
     public function save($runValidation = true, $attributeNames = null): bool
     {
-        $isInsert = $this->isNewRecord;
+        $transaction = Yii::$app->db->beginTransaction();
 
-        if ($isInsert) {
-            $this->video_id = Yii::$app->security->generateRandomString(8);
-            $this->title = $this->video->name;
-            $this->video_name = $this->video->name;
-        }
+        try {
+            $isInsert = $this->isNewRecord;
 
-        if ($this->thumbnail) {
-            $this->has_thumbnail = 1;
-        }
+            if ($isInsert) {
+                $this->video_id = Yii::$app->security->generateRandomString(8);
+                $this->title = $this->video->name;
+                $this->video_name = $this->video->name;
+            }
 
-        $saved = parent::save($runValidation, $attributeNames);
+            if ($this->thumbnail) {
+                $this->has_thumbnail = 1;
+            }
 
-        if (!$saved) {
+            $saved = parent::save($runValidation, $attributeNames);
+
+            if (!$saved) {
+                return false;
+            }
+
+            if ($isInsert) {
+                $videoPath = Yii::getAlias('@frontend/web/storage/videos/' . $this->video_id . '.mp4');
+
+                if (!is_dir(dirname($videoPath))) {
+                    FileHelper::createDirectory(dirname($videoPath));
+                }
+
+                $this->video->saveAs($videoPath);
+            }
+
+            if ($this->thumbnail) {
+                $thumbnailPath = Yii::getAlias('@frontend/web/storage/thumbs/' . $this->video_id . '.jpg');
+                if (!is_dir(dirname($thumbnailPath))) {
+                    FileHelper::createDirectory(dirname($thumbnailPath));
+                }
+
+                $this->thumbnail->saveAs($thumbnailPath);
+
+                Image::getImagine()
+                    ->open($thumbnailPath)
+                    ->thumbnail(new Box(1280, 1280))
+                    ->save();
+            }
+
+            $transaction->commit();
+            return true;
+        } catch (\yii\base\Exception $e) {
+            $this->addError('video', $e->getMessage());
+            $transaction->rollBack();
             return false;
         }
-
-        if ($isInsert) {
-            $videoPath = Yii::getAlias('@frontend/web/storage/videos/' . $this->video_id . '.mp4');
-
-            if (!is_dir(dirname($videoPath))) {
-                FileHelper::createDirectory(dirname($videoPath));
-            }
-
-            $this->video->saveAs($videoPath);
-        }
-
-        if ($this->thumbnail) {
-            $thumbnailPath = Yii::getAlias('@frontend/web/storage/thumbs/' . $this->video_id . '.jpg');
-            if (!is_dir(dirname($thumbnailPath))) {
-                FileHelper::createDirectory(dirname($thumbnailPath));
-            }
-
-            $this->thumbnail->saveAs($thumbnailPath);
-
-            Image::getImagine()
-                ->open($thumbnailPath)
-                ->thumbnail(new Box(1280, 1280))
-                ->save();
-        }
-
-        return true;
     }
 
     /**

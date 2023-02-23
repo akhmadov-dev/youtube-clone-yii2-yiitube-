@@ -1,5 +1,6 @@
 <?php
 
+use yii\grid\SerialColumn;
 use common\models\Video;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -8,6 +9,7 @@ use yii\grid\GridView;
 
 /** @var yii\web\View $this */
 /** @var yii\data\ActiveDataProvider $dataProvider */
+/** @var Video $model */
 
 $this->title = 'Videos';
 $this->params['breadcrumbs'][] = $this->title;
@@ -20,30 +22,32 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Create Video', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'video_id',
-            'title',
-            'description:ntext',
-            'tags',
-            'status',
-            //'has_thumbnail',
-            //'video_name',
-            //'created_at',
-            //'updated_at',
-            //'created_by',
+            ['class' => SerialColumn::class],
             [
-                'class' => ActionColumn::className(),
-                'urlCreator' => function ($action, Video $model, $key, $index, $column) {
+                'attribute' => 'video_id',
+                'content' => function ($model) {
+                    return $this->render('_video_item', ['model' => $model]);
+                }
+            ],
+            [
+                'attribute' => 'status',
+                'content' => static function (Video $model) {
+                    return $model->getStatusLabels()[$model->status];
+                }
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
+            [
+                'class' => ActionColumn::class,
+                'urlCreator' => static function ($action, Video $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'video_id' => $model->video_id]);
-                 }
+                }
             ],
         ],
-    ]); ?>
+    ]) ?>
 
 
 </div>

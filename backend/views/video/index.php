@@ -42,6 +42,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at:datetime',
             [
                 'class' => ActionColumn::class,
+                'buttons' => [
+                    'delete' => function ($url) {
+                        return Html::a('Delete', $url, [
+                            'data-method' => 'post',
+                            'data-confirm' => 'Are you sure?'
+                        ]);
+                    }
+                ],
                 'urlCreator' => static function ($action, Video $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'video_id' => $model->video_id]);
                 }

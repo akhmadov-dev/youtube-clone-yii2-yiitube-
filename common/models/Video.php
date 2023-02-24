@@ -220,4 +220,20 @@ class Video extends \yii\db\ActiveRecord
         return $this->has_thumbnail ? Yii::$app->params['frontendUrl'] . '/storage/thumbs/' . $this->video_id . '.jpg'
             : '';
     }
+
+    /**
+     * @return void
+     */
+    public function afterDelete()
+    {
+        parent::afterDelete();
+
+        $videoPath = Yii::getAlias('@frontend/web/storage/videos/' . $this->video_id . '.mp4');
+        unlink($videoPath);
+
+        $thumbnailPath = Yii::getAlias('@frontend/web/storage/thumbs/' . $this->video_id . '.jpg');
+        if (file_exists($thumbnailPath)) {
+            unlink($thumbnailPath);
+        }
+    }
 }

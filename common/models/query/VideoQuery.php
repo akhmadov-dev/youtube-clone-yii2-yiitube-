@@ -2,6 +2,8 @@
 
 namespace common\models\query;
 
+use common\models\Video;
+
 /**
  * This is the ActiveQuery class for [[\common\models\Video]].
  *
@@ -9,17 +11,20 @@ namespace common\models\query;
  */
 class VideoQuery extends \yii\db\ActiveQuery
 {
-    public const STATUS_ACTIVE = 1;
-    public const STATUS_INACTIVE = 0;
-
-    public function active()
+    /**
+     * @return VideoQuery
+     */
+    public function published()
     {
-        return $this->andWhere('[[status]]=' . self::STATUS_ACTIVE);
+        return $this->andWhere('[[status]]=' . Video::STATUS_PUBLISHED);
     }
 
-    public function inActive()
+    /**
+     * @return VideoQuery
+     */
+    public function unPublished()
     {
-        return $this->andWhere('[[status]]=' . self::STATUS_INACTIVE);
+        return $this->andWhere('[[status]]=' . Video::STATUS_UNLISTED);
     }
 
     /**

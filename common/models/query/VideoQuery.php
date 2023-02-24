@@ -9,10 +9,18 @@ namespace common\models\query;
  */
 class VideoQuery extends \yii\db\ActiveQuery
 {
-    /*public function active()
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
+
+    public function active()
     {
-        return $this->andWhere('[[status]]=1');
-    }*/
+        return $this->andWhere('[[status]]=' . self::STATUS_ACTIVE);
+    }
+
+    public function inActive()
+    {
+        return $this->andWhere('[[status]]=' . self::STATUS_INACTIVE);
+    }
 
     /**
      * {@inheritdoc}
@@ -30,5 +38,22 @@ class VideoQuery extends \yii\db\ActiveQuery
     public function one($db = null)
     {
         return parent::one($db);
+    }
+
+    /**
+     * @param $user_id
+     * @return VideoQuery
+     */
+    public function creator($user_id)
+    {
+        return $this->andWhere(['created_by' => $user_id]);
+    }
+
+    /**
+     * @return VideoQuery
+     */
+    public function latest()
+    {
+        return $this->orderBy(['created_at' => SORT_DESC]);
     }
 }

@@ -8,7 +8,7 @@ use common\widgets\Alert;
 $this->beginContent('@frontend/views/layouts/base.php');
 ?>
     <main role="main" class="d-flex">
-        <div class="container">
+        <div class="container-fluid">
             <?= Alert::widget() ?>
             <?= $content ?>
         </div>

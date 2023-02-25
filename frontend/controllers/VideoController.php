@@ -18,4 +18,23 @@ class VideoController extends Controller
             'dataProvider' => $dataProvider
         ]);
     }
+
+    /**
+     * @param string $id
+     * @return string
+     * @throws \yii\web\NotFoundHttpException
+     */
+    public function actionView(string $id)
+    {
+        $this->layout = 'auth';
+        $video = Video::findOne($id);
+
+        if (!$video) {
+            throw new \yii\web\NotFoundHttpException("Video does not exit");
+        }
+
+        return $this->render('view', [
+            'model' => $video
+        ]);
+    }
 }

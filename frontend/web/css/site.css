@@ -24,3 +24,7 @@ aside .nav-pills .nav-link.active {
     color: #b90000;
     border-left: 4px solid #b90000;
 }
+
+.content-wrapper {
+    margin-bottom: 200px;
+}

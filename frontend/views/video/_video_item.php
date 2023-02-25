@@ -3,12 +3,14 @@
 ?>
 
 <div class="card m-3" style="width: 18rem;">
-    <div class="ratio ratio-16x9">
-        <video class="embed-responsive"
-               poster="<?= $model->getThumbnailLink() ?>"
-               src="<?= $model->getVideoLink() ?>"
-               title="YouTube video"></video>
-    </div>
+    <a href="<?= \yii\helpers\Url::to(['/video/view', 'id' => $model->video_id]) ?>">
+        <div class="ratio ratio-16x9">
+            <video class="embed-responsive"
+                   poster="<?= $model->getThumbnailLink() ?>"
+                   src="<?= $model->getVideoLink() ?>"
+                   title="YouTube video"></video>
+        </div>
+    </a>
 
     <div class="card-body p-2">
         <h6 class="card-title m-0"><?= $model->title ?></h6>

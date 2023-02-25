@@ -18,7 +18,7 @@
             <?= $model->createdBy->username ?>
         </p>
         <p class="text-muted card-text m-0">
-            140 views . <?= Yii::$app->formatter->asRelativeTime($model->created_at) ?>
+            <?= $model->getViews()->count() ?> views . <?= Yii::$app->formatter->asRelativeTime($model->created_at) ?>
         </p>
     </div>
 </div>

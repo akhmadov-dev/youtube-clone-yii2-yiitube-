@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Subscribe;
 use common\models\User;
+use Yii;
 use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 
@@ -79,6 +80,18 @@ class ChannelController extends Controller
             $subscriber->user_id = $userId;
             $subscriber->create_at = time();
             $subscriber->save();
+
+            // send email
+            \Yii::$app->mailer->compose([
+                'html' => 'subscriber-html', 'text' => 'subscriber-text'
+            ], [
+                'channel' => $channel,
+                'user' => \Yii::$app->user->identity
+            ])
+                ->setFrom(\Yii::$app->params['senderEmail'])
+                ->setTo($channel->email)
+                ->setSubject('You have new subscriber')
+                ->send();
         } else {
             $subscriber->delete();
         }

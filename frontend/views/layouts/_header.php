@@ -16,12 +16,20 @@ use yii\bootstrap5\NavBar;
         ]
     ]);
     $menuItems = [
-        ['label' => 'Create', 'url' => ['/video/create']],
+        // ['label' => 'Create', 'url' => ['/video/create']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     }
+    ?>
+
+    <form class="d-flex" role="search" action="<?= \yii\helpers\Url::to(['video/search']) ?>">
+        <input class="form-control me-2" name="keyword" type="search" placeholder="Search" aria-label="Search" value="<?= \Yii::$app->request->get('keyword') ?>">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+
+    <?php
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
         'items' => $menuItems,
@@ -36,6 +44,7 @@ use yii\bootstrap5\NavBar;
             )
             . Html::endForm();
     }
+
     NavBar::end();
     ?>
 </header>

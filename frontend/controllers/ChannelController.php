@@ -21,13 +21,6 @@ class ChannelController extends Controller
                     ]
                 ]
             ],
-            // 'verb' => [
-            //     'class' => VerbFilter::class,
-            //     'actions' => [
-            //         'like' => ['post'],
-            //         'dislike' => ['post'],
-            //     ]
-            // ]
         ]);
     }
     public function actionView(string $username)

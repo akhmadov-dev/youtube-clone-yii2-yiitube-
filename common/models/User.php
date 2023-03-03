@@ -59,7 +59,18 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    
+    /**
+     * Get subscribers
+     * @return \yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getSubscribers()
+    {
+        return $this->hasMany(User::class, ['id' => 'user_id'])
+        ->viaTable('subscribe', ['channel_id' => 'id']);
+    }
+
+
 
     /**
      * {@inheritdoc}
@@ -112,7 +123,8 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $token verify email token
      * @return static|null
      */
-    public static function findByVerificationToken($token) {
+    public static function findByVerificationToken($token)
+    {
         return static::findOne([
             'verification_token' => $token,
             'status' => self::STATUS_INACTIVE
@@ -218,8 +230,9 @@ class User extends ActiveRecord implements IdentityInterface
      * @param string $user_id
      * @return \common\models\Subscribe|null
      */
-    public function isSubscribed(string $userId) {
-        return Subscribe::find()->andWhere([    
+    public function isSubscribed(string $userId)
+    {
+        return Subscribe::find()->andWhere([
             'channel_id' => $this->id,
             'user_id' => $userId
         ])->one();

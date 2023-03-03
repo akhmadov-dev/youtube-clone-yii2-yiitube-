@@ -1,4 +1,5 @@
 <?php
+
 /** @var $channel \common\models\User */
 // echo '<pre>';
 // var_dump($channel->isSubscribed(\Yii::$app->user->id));exit;
@@ -13,4 +14,4 @@
         'data-method' => 'post',
         'data-pjax' => "1"
     ]
-) ?> 9
+) ?> <?= $channel->getSubscribers()->count() ?>

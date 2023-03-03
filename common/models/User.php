@@ -59,6 +59,8 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    
+
     /**
      * {@inheritdoc}
      */
@@ -209,5 +211,17 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * Is Subscribed 
+     * @param string $user_id
+     * @return \common\models\Subscribe|null
+     */
+    public function isSubscribed(string $userId) {
+        return Subscribe::find()->andWhere([    
+            'channel_id' => $this->id,
+            'user_id' => $userId
+        ])->one();
     }
 }

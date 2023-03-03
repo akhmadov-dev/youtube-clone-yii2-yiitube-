@@ -1,4 +1,5 @@
 <?php
+/** @var $this \yii\web\View; */
 /** @var $channel \common\models\User */
 ?>
 
@@ -6,13 +7,13 @@
     <div class="container-fluid py-5">
         <h1 class="display-4"><?= $channel->username ?></h1>
         <hr class="my-4">
-        <?= \yii\helpers\Html::a('Subscribe <i class="fa-solid fa-bell"></i>',
-            '#',
-            [
-                'class' => 'btn btn-danger',
-                'role' => 'button'
-            ]
-        ) ?> 9
+        <?php \yii\widgets\Pjax::begin() ?>
+
+        <?= $this->render('_subscribe', [
+            'channel' => $channel
+        ]) ?>
+
+        <?php \yii\widgets\Pjax::end() ?>
     </div>
 </div>
 

@@ -19,6 +19,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
+            'baseUrl' => ''
         ],
         'user' => [
             'identityClass' => User::class,

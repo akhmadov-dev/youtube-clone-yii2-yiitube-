@@ -1,6 +1,7 @@
 <?php
 
-/** @var \common\models\Video  $model */
+/** @var $model \common\models\Video */
+/** @var $similarVideos \common\models\Video[] */
 ?>
 
 <div class="row">
@@ -31,6 +32,26 @@
         </div>
     </div>
     <div class="col-sm-4">
-
+        <?php foreach ($similarVideos as $similarVideo): ?>
+            <div class="d-flex mb-3">
+                <a href="<?= \yii\helpers\Url::to(['/video/view', 'id' => $similarVideo->video_id]) ?>">
+                    <div class="ratio ratio-16x9 mr-2" style="width: 120px">
+                        <video class="embed-responsive" poster="<?= $similarVideo->getThumbnailLink() ?>" src="<?= $similarVideo->getVideoLink() ?>" title="YouTube video"></video>
+                    </div>
+                </a>
+                <div class="flex-grow-1 ms-3">
+                    <h6 class="mt-0"><?= $similarVideo->title ?></h6>
+                    <div class="text-muted">
+                        <p class="m-0">
+                            <?php echo \common\helpers\Html::channelLink($similarVideo->createdBy)  ?>
+                        </p>
+                        <small>
+                            <?php echo $similarVideo->getViews()->count() ?> views .
+                            <?php echo Yii::$app->formatter->asRelativeTime($similarVideo->created_at) ?>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
 </div>

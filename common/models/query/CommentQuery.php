@@ -31,4 +31,21 @@ class CommentQuery extends \yii\db\ActiveQuery
     {
         return parent::one($db);
     }
+
+    /**
+     * @param string $videoId
+     * @return CommentQuery
+     */
+    public function videoId(string $videoId): CommentQuery
+    {
+        return $this->andWhere(['video_id' => $videoId]);
+    }
+
+    /**
+     * @return CommentQuery
+     */
+    public function latest(): CommentQuery
+    {
+        return $this->orderBy(['created_at' => SORT_DESC]);
+    }
 }

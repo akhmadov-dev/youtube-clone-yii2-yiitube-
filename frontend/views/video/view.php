@@ -1,7 +1,9 @@
 <?php
 
+/** @var $this \yii\web\View */
 /** @var $model \common\models\Video */
 /** @var $similarVideos \common\models\Video[] */
+/** @var $comments \common\models\Comment[] */
 
 $this->title = $model->title . ' | ' . Yii::$app->name;
 ?>
@@ -38,14 +40,15 @@ $this->title = $model->title . ' | ' . Yii::$app->name;
 
         <!-- begin comment -->
         <div class="comments mt-5">
-            <h4 class="mb-3">167 Comments</h4>
+            <h4 class="mb-3"><?= count($comments) ?> Comments</h4>
             <div class="create-comment mb-4">
                 <div class="d-flex">
                     <div class="flex-shrink-0">
                         <img class="mr-3 comment-avatar" src="/image/avatar.svg" alt="Avatar Image">
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <form id="create-comment-form" method="post" action="<?= \yii\helpers\Url::to(['/comment/create']) ?>" data-pjax="1">
+                        <form id="create-comment-form" method="post"
+                              action="<?= \yii\helpers\Url::to(['/comment/create']) ?>" data-pjax="1">
                             <input type="hidden" name="video_id" value="<?= $model->video_id ?>">
                             <textarea rows="1" id="leave-comment"
                                       class="form-control"
@@ -60,70 +63,12 @@ $this->title = $model->title . ' | ' . Yii::$app->name;
                     </div>
                 </div>
             </div>
-            <div class="comments-wrapper">
-                <div class="d-flex mb-3">
-                    <div class="flex-shrink-0">
-                        <img class="mr-3 comment-avatar" src="/image/avatar.svg" alt="Avatar Image">
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="mt-0">
-                            <a class="text-dark" href="#">
-                                username
-                            </a>
-                            <small class="text-muted">6 months ago</small></h6>
-                        <div class="comment-text">
-                            Look a video
-                        </div>
-                        <div class="comment-actions mt-2">
-                            <button class="btn btn-sm btn-light">
-                                REPLY
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex mb-3">
-                    <div class="flex-shrink-0">
-                        <img class="mr-3 comment-avatar" src="/image/avatar.svg" alt="Avatar Image">
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="mt-0">
-                            <a class="text-dark" href="#">
-                                username
-                            </a>
-                            <small class="text-muted">6 months ago</small></h6>
-                        <div class="comment-text">
-                            Look a video
-                        </div>
-                        <div class="comment-actions mt-2">
-                            <button class="btn btn-sm btn-light">
-                                REPLY
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-flex mb-3">
-                    <div class="flex-shrink-0">
-                        <img class="mr-3 comment-avatar" src="/image/avatar.svg" alt="Avatar Image">
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                        <h6 class="mt-0">
-                            <a class="text-dark" href="#">
-                                username
-                            </a>
-                            <small class="text-muted">6 months ago</small></h6>
-                        <div class="comment-text">
-                            Look a video
-                        </div>
-                        <div class="comment-actions mt-2">
-                            <button class="btn btn-sm btn-light">
-                                REPLY
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
+            <div id="comments-wrapper" class="comments-wrapper">
+                <?php foreach ($comments as $comment) {
+                    echo $this->render('_comment_item', [
+                        'model' => $comment
+                    ]);
+                } ?>
             </div>
         </div>
         <!-- end comment -->

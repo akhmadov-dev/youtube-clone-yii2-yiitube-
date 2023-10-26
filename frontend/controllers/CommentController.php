@@ -52,14 +52,11 @@ class CommentController extends Controller
         $comment = new Comment();
 
         if ($comment->load(\Yii::$app->request->post(), '') && $comment->save()) {
-            $commentData = $comment->toArray();
-            unset($commentData['created_by'], $commentData['video_id']);
-            $commentData['created_at'] = \Yii::$app->formatter->asRelativeTime($commentData['created_at']);
-            $commentData['user'] = $comment->createdBy->toArray();
-
             return [
                 'success' => true,
-                'comment' => $commentData
+                'comment' => $this->renderPartial('@frontend/views/video/_comment_item', [
+                    'model' => $comment
+                ])
             ];
         }
 

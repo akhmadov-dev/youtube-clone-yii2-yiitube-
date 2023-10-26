@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Comment;
 use common\models\Video;
 use common\models\VideoLike;
 use common\models\VideoView;
@@ -86,8 +87,15 @@ class VideoController extends Controller
             ->limit(10)
             ->all();
 
+        $comments = Comment::find()
+            ->with(['createdBy'])
+            ->videoId($id)
+            ->latest()
+            ->all();
+
         return $this->render('view', [
             'model' => $video,
+            'comments' => $comments,
             'similarVideos' => $similarVideos
         ]);
     }
@@ -186,9 +194,9 @@ class VideoController extends Controller
                     FROM video_view
                     WHERE user_id = :userId 
                     GROUP BY video_id) vv", "vv.video_id = v.video_id", [
-                        'userId' => \Yii::$app->user->id
+                'userId' => \Yii::$app->user->id
             ])
-        ->orderBy("vv.max_date DESC");
+            ->orderBy("vv.max_date DESC");
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query

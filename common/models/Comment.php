@@ -11,6 +11,7 @@ use Yii;
  * @property string $comment
  * @property string $video_id
  * @property int|null $parent_id
+ * @property int|null $pinned
  * @property int|null $created_at
  * @property int|null $updated_at
  * @property int|null $created_by
@@ -38,7 +39,7 @@ class Comment extends \yii\db\ActiveRecord
         return [
             [['comment', 'video_id'], 'required'],
             [['comment'], 'string'],
-            [['parent_id', 'created_at', 'updated_at', 'created_by'], 'integer'],
+            [['parent_id', 'pinned', 'created_at', 'updated_at', 'created_by'], 'integer'],
             [['video_id'], 'string', 'max' => 16],
             [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['created_by' => 'id']],
             [['parent_id'], 'exist', 'skipOnError' => true, 'targetClass' => Comment::class, 'targetAttribute' => ['parent_id' => 'id']],
@@ -56,6 +57,7 @@ class Comment extends \yii\db\ActiveRecord
             'comment' => Yii::t('common', 'Comment'),
             'video_id' => Yii::t('common', 'Video ID'),
             'parent_id' => Yii::t('common', 'Parent ID'),
+            'pinned' => Yii::t('common', 'Pinned'),
             'created_at' => Yii::t('common', 'Created At'),
             'updated_at' => Yii::t('common', 'Updated At'),
             'created_by' => Yii::t('common', 'Created By'),

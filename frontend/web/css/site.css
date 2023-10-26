@@ -28,3 +28,16 @@ aside .nav-pills .nav-link.active {
 .content-wrapper {
     margin-bottom: 200px;
 }
+
+/** Comment section start */
+.create-comment .action-buttons {
+    display: none;
+}
+
+.create-comment.focused .action-buttons {
+    display: flex;
+}
+
+.comment-avatar {
+    width: 50px;
+}

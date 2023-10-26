@@ -45,8 +45,7 @@ $this->title = $model->title . ' | ' . Yii::$app->name;
                         <img class="mr-3 comment-avatar" src="/image/avatar.svg" alt="Avatar Image">
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <?php \yii\widgets\Pjax::begin() ?>
-                        <form method="post" action="<?= \yii\helpers\Url::to(['/comment/create']) ?>" data-pjax="1">
+                        <form id="create-comment-form" method="post" action="<?= \yii\helpers\Url::to(['/comment/create']) ?>" data-pjax="1">
                             <input type="hidden" name="video_id" value="<?= $model->video_id ?>">
                             <textarea rows="1" id="leave-comment"
                                       class="form-control"
@@ -58,7 +57,6 @@ $this->title = $model->title . ' | ' . Yii::$app->name;
                                 <button id="submit-comment" class="btn btn-primary">Comment</button>
                             </div>
                         </form>
-                        <?php \yii\widgets\Pjax::end() ?>
                     </div>
                 </div>
             </div>

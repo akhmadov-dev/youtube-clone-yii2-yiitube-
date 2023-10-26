@@ -82,7 +82,9 @@ class SiteController extends Controller
             ->count();
 
         $numberOfSubscribers = $user->getSubscribers()->count();
-        $subscribers = Subscribe::find()->andWhere(['channel_id' => $userId])
+        $subscribers = Subscribe::find()
+            ->with('user')
+            ->andWhere(['channel_id' => $userId])
             ->orderBy('create_at DESC')
             ->limit(3)
             ->all();

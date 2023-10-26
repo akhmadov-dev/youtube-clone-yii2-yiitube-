@@ -40,7 +40,7 @@ $this->title = $model->title . ' | ' . Yii::$app->name;
 
         <!-- begin comment -->
         <div class="comments mt-5">
-            <h4 class="mb-3"><?= count($comments) ?> Comments</h4>
+            <h4 class="mb-3"><span id="comment-count"><?= count($comments) ?></span> Comments</h4>
             <div class="create-comment mb-4">
                 <div class="d-flex">
                     <div class="flex-shrink-0">

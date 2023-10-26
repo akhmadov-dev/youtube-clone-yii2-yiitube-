@@ -4,6 +4,7 @@ $(function () {
     const $submitComment = $('#submit-comment');
     const $createCommentForm = $('#create-comment-form');
     const $commentsWrapper = $('#comments-wrapper');
+    const $commentCount = $('#comment-count');
 
     $leaveComment.click(function () {
         $leaveComment
@@ -12,12 +13,7 @@ $(function () {
             .addClass('focused');
     });
 
-    $cancelComment.click(() => {
-        $leaveComment.attr('rows', 1);
-        $cancelComment
-            .closest('.create-comment')
-            .removeClass('focused');
-    });
+    $cancelComment.click(resetForm);
 
     $createCommentForm.submit(ev => {
         ev.preventDefault();
@@ -28,10 +24,21 @@ $(function () {
             data: $createCommentForm.serializeArray(),
             success: function (res) {
                 $commentsWrapper.prepend(res.comment);
+                resetForm();
+                $commentCount.text(parseInt($commentCount.text()) + 1);
             }
         })
             .done(function () {
                 console.log(arguments);
             });
     });
+
+    function resetForm() {
+        $leaveComment
+            .val('')
+            .attr('rows', 1);
+        $cancelComment
+            .closest('.create-comment')
+            .removeClass('focused');
+    }
 });

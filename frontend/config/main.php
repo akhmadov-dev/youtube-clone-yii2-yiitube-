@@ -11,6 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'defaultRoute' => '/video/index',
+    'layout' => 'auth',
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [

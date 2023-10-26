@@ -41,11 +41,15 @@ class VideoController extends Controller
 
     public function actionIndex()
     {
+        $this->layout = 'main';
         $dataProvider = new ActiveDataProvider([
             'query' => Video::find()
                 ->with('createdBy')
                 ->published()
-                ->latest()
+                ->latest(),
+            'pagination' => [
+                'pageSize' => 5
+            ]
         ]);
 
         return $this->render('index', [
@@ -151,7 +155,9 @@ class VideoController extends Controller
 
     public function actionSearch(string $keyword)
     {
+        $this->layout = 'main';
         $query = Video::find()
+            ->with('createdBy')
             ->published()
             ->latest();
 
@@ -173,6 +179,7 @@ class VideoController extends Controller
      */
     public function actionHistory(): string
     {
+        $this->layout = 'main';
         $query = Video::find()
             ->alias('v')
             ->innerJoin("(SELECT video_id, MAX(created_at) as max_date 

@@ -73,19 +73,6 @@ class VideoController extends Controller
     }
 
     /**
-     * Displays a single Video model.
-     * @param string $video_id Video ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($video_id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($video_id),
-        ]);
-    }
-
-    /**
      * Creates a new Video model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return string|\yii\web\Response
@@ -139,7 +126,7 @@ class VideoController extends Controller
      * @return \yii\web\Response
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($video_id)
+    public function actionDelete(string $video_id)
     {
         $this->findModel($video_id)->delete();
 

@@ -7,6 +7,8 @@ use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\ResponseFormatterInterface;
 
@@ -30,7 +32,7 @@ class CommentController extends Controller
             ],
             'content' => [
                 'class' => ContentNegotiator::class,
-                'only' => ['create'],
+                'only' => ['create', 'delete'],
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON
                 ]
@@ -38,7 +40,8 @@ class CommentController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'create' => ['post']
+                    'create' => ['POST'],
+                    'delete' => ['POST']
                 ]
             ]
         ];
@@ -64,6 +67,27 @@ class CommentController extends Controller
             'success' => false,
             'errors' => $comment->errors,
         ];
+    }
+
+
+    public function actionDelete(int $id)
+    {
+        $comment = $this->findModel($id);
+        if ($comment->created_by === \Yii::$app->user->id) {
+            $comment->delete();
+            return ['success' => true];
+        }
+        throw new ForbiddenHttpException();
+    }
+
+    protected function findModel(int $id) {
+        $comment = Comment::findOne(['id' => $id]);
+
+        if (!$comment) {
+            throw new NotFoundHttpException;
+        }
+
+        return $comment;
     }
 
 }

@@ -1,10 +1,10 @@
 $(function () {
     const $leaveComment = $('#leave-comment');
     const $cancelComment = $('#cancel-comment');
-    const $submitComment = $('#submit-comment');
     const $createCommentForm = $('#create-comment-form');
     const $commentsWrapper = $('#comments-wrapper');
     const $commentCount = $('#comment-count');
+    const $deleteComment = $('.comment-actions .item-delete-comment');
 
     $leaveComment.click(function () {
         $leaveComment
@@ -31,6 +31,22 @@ $(function () {
             .done(function () {
                 console.log(arguments);
             });
+    });
+
+    $deleteComment.click(ev => {
+        ev.preventDefault();
+        const $delete = $(ev.target);
+
+        if (confirm('Are you sure you want to delete that comment?')) {
+            $.ajax({
+                method: 'post',
+                url: $delete.attr('href'),
+                success: function () {
+                    $delete.closest('.comment-item').remove();
+                    $commentCount.text(parseInt($commentCount.text()) - 1);
+                }
+            });
+        }
     });
 
     function resetForm() {

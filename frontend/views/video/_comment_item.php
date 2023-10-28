@@ -32,7 +32,8 @@
                         </a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item item-delete-comment"
+                           href="<?= \yii\helpers\Url::to(['/comment/delete', 'id' => $model->id]) ?>">
                             <i class="fas fa-trash"></i> Delete
                         </a>
                     </li>

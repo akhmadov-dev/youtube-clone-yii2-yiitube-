@@ -38,6 +38,20 @@ aside .nav-pills .nav-link.active {
     display: flex;
 }
 
+.comment-item {
+    position: relative;
+}
+
 .comment-avatar {
     width: 50px;
+}
+
+.comment-actions {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.comment-actions .dropdown-toggle:after {
+    display: none;
 }

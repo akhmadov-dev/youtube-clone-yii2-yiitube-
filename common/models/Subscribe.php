@@ -53,7 +53,7 @@ class Subscribe extends \yii\db\ActiveRecord
     /**
      * Gets query for [[Channel]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\User
      */
     public function getChannel()
     {
@@ -63,7 +63,7 @@ class Subscribe extends \yii\db\ActiveRecord
     /**
      * Gets query for [[User]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\User
      */
     public function getUser()
     {

@@ -290,4 +290,13 @@ class Video extends \yii\db\ActiveRecord
             ->disliked()
             ->one();
     }
+
+    /**
+     * @param int $userId
+     * @return bool
+     */
+    public function belongsTo(int $userId): bool
+    {
+        return $this->created_by === $userId;
+    }
 }

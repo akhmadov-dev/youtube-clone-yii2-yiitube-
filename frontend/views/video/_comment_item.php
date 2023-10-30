@@ -16,29 +16,35 @@
         </h6>
         <div class="comment-text">
             <?= $model->comment ?>
-            <div class="dropdown comment-actions">
-                <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-ellipsis-vertical"></i>
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-thumbtack"></i> Pin
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item item-delete-comment"
-                           href="<?= \yii\helpers\Url::to(['/comment/delete', 'id' => $model->id]) ?>">
-                            <i class="fas fa-trash"></i> Delete
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <?php if ($model->belongsTo(Yii::$app->user->id) || $model->video->belongsTo(Yii::$app->user->id)): ?>
+                <div class="dropdown comment-actions">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <?php if ($model->video->belongsTo(Yii::$app->user->id)): ?>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-thumbtack"></i> Pin
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <?php if ($model->belongsTo(Yii::$app->user->id)): ?>
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <li>
+                            <a class="dropdown-item item-delete-comment"
+                               href="<?= \yii\helpers\Url::to(['/comment/delete', 'id' => $model->id]) ?>">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            <?php endif; ?>
         </div>
         <div class="button-action mt-2">
             <button class="btn btn-sm btn-light">

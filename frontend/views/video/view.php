@@ -66,7 +66,8 @@ $this->title = $model->title . ' | ' . Yii::$app->name;
             <div id="comments-wrapper" class="comments-wrapper">
                 <?php foreach ($comments as $comment) {
                     echo $this->render('_comment_item', [
-                        'model' => $comment
+                        'model' => $comment,
+                        'video' => $model
                     ]);
                 } ?>
             </div>

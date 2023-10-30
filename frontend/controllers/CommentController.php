@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Comment;
+use common\models\Video;
 use yii\filters\AccessControl;
 use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
@@ -58,7 +59,7 @@ class CommentController extends Controller
             return [
                 'success' => true,
                 'comment' => $this->renderPartial('@frontend/views/video/_comment_item', [
-                    'model' => $comment
+                    'model' => $comment,
                 ])
             ];
         }

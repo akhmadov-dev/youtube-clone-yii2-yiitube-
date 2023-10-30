@@ -26,6 +26,9 @@ $(function () {
                 $commentsWrapper.prepend(res.comment);
                 resetForm();
                 $commentCount.text(parseInt($commentCount.text()) + 1);
+                $deleteComment
+                    .off('click')
+                    .on('click', onDeleteClick);
             }
         })
             .done(function () {
@@ -33,7 +36,19 @@ $(function () {
             });
     });
 
-    $deleteComment.click(ev => {
+    $deleteComment.on('click', onDeleteClick);
+
+
+    function resetForm() {
+        $leaveComment
+            .val('')
+            .attr('rows', 1);
+        $cancelComment
+            .closest('.create-comment')
+            .removeClass('focused');
+    }
+
+    function onDeleteClick(ev) {
         ev.preventDefault();
         const $delete = $(ev.target);
 
@@ -47,14 +62,5 @@ $(function () {
                 }
             });
         }
-    });
-
-    function resetForm() {
-        $leaveComment
-            .val('')
-            .attr('rows', 1);
-        $cancelComment
-            .closest('.create-comment')
-            .removeClass('focused');
     }
 });

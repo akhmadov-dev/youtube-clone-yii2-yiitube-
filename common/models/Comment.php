@@ -91,7 +91,7 @@ class Comment extends \yii\db\ActiveRecord
     /**
      * Gets query for [[CreatedBy]].
      *
-     * @return \yii\db\ActiveQuery|\common\models\query\UserQuery
+     * @return \yii\db\ActiveQuery|\common\models\User
      */
     public function getCreatedBy()
     {
@@ -125,5 +125,14 @@ class Comment extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\query\CommentQuery(get_called_class());
+    }
+
+    /**
+     * @param int $userId
+     * @return bool
+     */
+    public function belongsTo(int $userId): bool
+    {
+        return $this->created_by === $userId;
     }
 }

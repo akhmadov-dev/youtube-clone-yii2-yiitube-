@@ -88,7 +88,7 @@ class VideoController extends Controller
             ->all();
 
         $comments = Comment::find()
-            ->with(['createdBy'])
+            ->with(['createdBy', 'video'])
             ->videoId($id)
             ->latest()
             ->all();
